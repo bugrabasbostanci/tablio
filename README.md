@@ -68,10 +68,4 @@ Katkıda bulunmak için:
 
 Bu proje [MIT Lisansı](LICENSE) altında lisanslanmıştır.
 
-## 👨‍💻 Geliştirici
 
-Bu proje [Geliştiricinin Adı] tarafından geliştirilmiştir.
-
----
-
-**Not**: Bu proje tamamen açık kaynaklıdır ve eğitim amaçlıdır.
