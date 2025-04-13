@@ -10,6 +10,44 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Tablio - Web Tablolarını Dönüştür",
   description: "Web tablolarını tek tıkla kullanılabilir formatlara dönüştürün",
+  icons: {
+    icon: [
+      { 
+        url: "/images/tablio-logo.svg",
+        type: "image/svg+xml",
+        sizes: "any" 
+      },
+      { 
+        url: "/images/favicon-32x32.png",
+        type: "image/png",
+        sizes: "32x32" 
+      },
+      { 
+        url: "/images/favicon-16x16.png",
+        type: "image/png",
+        sizes: "16x16" 
+      },
+      { 
+        url: "/images/android-chrome-192x192.png",
+        type: "image/png",
+        sizes: "192x192" 
+      },
+      { 
+        url: "/images/android-chrome-512x512.png",
+        type: "image/png",
+        sizes: "512x512" 
+      }
+    ],
+    shortcut: { 
+      url: "/images/favicon-32x32.png",
+      type: "image/png" 
+    },
+    apple: {
+      url: "/images/apple-touch-icon.png",
+      type: "image/png",
+      sizes: "180x180"
+    }
+  },
 }
 
 export default function RootLayout({

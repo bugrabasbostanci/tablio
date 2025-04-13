@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { TableConverter } from "@/components/table-converter"
 import { SimpleGuide } from "@/components/simple-guide"
@@ -22,7 +23,17 @@ export default function Home() {
             <ThemeToggle />
           </div>
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight mb-3">Tablio</h1>
+            <div className="flex flex-col justify-center items-center mb-2">
+              <Image 
+                src="/images/tablio-logo.svg" 
+                alt="Tablio Logo" 
+                width={120}
+                height={40}
+                className="h-auto dark:filter dark:brightness-[1.15] transition-all duration-300 mb-2"
+                priority
+              />
+              <h1 className="text-3xl font-bold tracking-tight">Tablio</h1>
+            </div>
             <p className="text-lg text-muted-foreground">
               Web tablolarını tek tıkla kullanılabilir formatlara dönüştürün
             </p>

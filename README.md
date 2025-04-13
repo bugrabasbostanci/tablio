@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tablio
 
-## Getting Started
+<div align="center">
+  <img src="/public/images/android-chrome-192x192.png" alt="Tablio Logo" width="120" />
+</div>
 
-First, run the development server:
+Web tablolarını tek tıkla kullanılabilir formatlara dönüştüren, kullanımı kolay bir web uygulaması.
+
+## 🌟 Özellikler
+
+- **Kolay Tablo Dönüştürme**: Kopyaladığınız tabloları yapıştırın ve anında farklı formatlara dönüştürün
+- **Çoklu Format Desteği**: XLSX, CSV, PDF, JSON ve Markdown formatlarına dönüştürme imkanı
+- **Hızlı İşlem**: Tıklamadan direkt CTRL+V ile yapıştırma özelliği
+- **Tablo Önizleme**: Dönüştürmeden önce tabloları görüntüleme ve doğrulama
+- **Karanlık/Aydınlık Tema**: Kullanıcı tercihine göre tema seçimi
+- **Tamamen Ücretsiz**: Herhangi bir ücret veya kayıt gerektirmez
+- **Gizlilik Odaklı**: Verileriniz tamamen tarayıcınızda işlenir, hiçbir veri sunucuya gönderilmez
+
+## 🚀 Başlarken
+
+Bu proje [Next.js](https://nextjs.org) ile oluşturulmuş olup, geliştirme ortamını başlatmak için:
 
 ```bash
+# Bağımlılıkları yükleyin
+npm install
+
+# Geliştirme sunucusunu başlatın
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açarak uygulamayı görüntüleyebilirsiniz.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Teknolojiler
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **[Next.js 15](https://nextjs.org)**: React tabanlı web uygulama çerçevesi
+- **[React 19](https://react.dev)**: Kullanıcı arayüzü kütüphanesi
+- **[TypeScript](https://www.typescriptlang.org/)**: Tip güvenliği için JavaScript superset'i
+- **[Tailwind CSS](https://tailwindcss.com/)**: Utility-first CSS çerçevesi
+- **[Shadcn/ui](https://ui.shadcn.com/)**: Yeniden kullanılabilir bileşen kütüphanesi
+- **[Radix UI](https://www.radix-ui.com/)**: Erişilebilir bileşen primitifleri
+- **[XLSX](https://www.npmjs.com/package/xlsx)**: Excel dosyaları işleme kütüphanesi
+- **[jsPDF](https://www.npmjs.com/package/jspdf)**: PDF oluşturma kütüphanesi
+- **[Papa Parse](https://www.npmjs.com/package/papaparse)**: CSV dosyaları işleme kütüphanesi
 
-## Learn More
+## 📖 Nasıl Kullanılır
 
-To learn more about Next.js, take a look at the following resources:
+1. Bir web sayfasından tabloyu kopyalayın (CTRL+C)
+2. Tablio uygulamasına gelin
+3. Direkt olarak CTRL+V tuşlarına basarak tabloyu yapıştırın (veya metin alanına tıklayıp yapıştırın)
+4. Oluşan tablo önizlemesini kontrol edin
+5. İstediğiniz çıktı formatını seçin (XLSX, CSV, PDF, JSON, Markdown)
+6. "Dönüştür ve İndir" butonuna tıklayın
+7. Dönüştürülen dosya otomatik olarak indirilecektir
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🌐 Canlı Demo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Uygulamanın canlı versiyonunu [tablio.vercel.app](https://tablio-two.vercel.app/) adresinden kullanabilirsiniz.
 
-## Deploy on Vercel
+## 💡 Katkıda Bulunma
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Katkıda bulunmak için:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Bu depoyu fork edin
+2. Değişiklikleri yapın
+3. Pull request oluşturun
+
+## 📝 Lisans
+
+Bu proje [MIT Lisansı](LICENSE) altında lisanslanmıştır.
+
+## 👨‍💻 Geliştirici
+
+Bu proje [Geliştiricinin Adı] tarafından geliştirilmiştir.
+
+---
+
+**Not**: Bu proje tamamen açık kaynaklıdır ve eğitim amaçlıdır.
