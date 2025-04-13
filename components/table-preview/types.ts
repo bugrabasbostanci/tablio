@@ -11,7 +11,7 @@ export interface TablePreviewProps {
 }
 
 export interface PreviewComponentProps {
-  data: string[][]
+  data: TableData
   onCopy: (content: string) => Promise<void>
   isCopied: boolean
 } 

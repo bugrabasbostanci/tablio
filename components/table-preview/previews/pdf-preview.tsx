@@ -5,15 +5,14 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { FileText, Copy, Download } from "lucide-react"
-import { PreviewComponentProps } from "../types"
+import { TableData } from "../types"
 
-export function PdfPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
+export function PdfPreview({ data }: { data: TableData }) {
   const [pdfUrl, setPdfUrl] = useState<string>("")
-  const headers = data[0]
-  const rows = data.slice(1)
+  const [isCopied, setIsCopied] = useState(false)
 
   useEffect(() => {
-    if (rows.length === 0) return
+    if (data.rows.length === 0) return
 
     try {
       // PDF oluştur
@@ -32,8 +31,8 @@ export function PdfPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
 
       // Tablo oluştur
       autoTable(doc, {
-        head: [headers],
-        body: rows,
+        head: [data.headers],
+        body: data.rows,
         startY: 60,
         styles: {
           font: "times",
@@ -60,7 +59,7 @@ export function PdfPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
         margin: { top: 60, right: 30, bottom: 30, left: 30 },
         columnStyles: {
           ...Object.fromEntries(
-            headers.map((_, index) => [index, { cellWidth: 'auto' }])
+            data.headers.map((_, index) => [index, { cellWidth: 'auto' }])
           )
         },
         showFoot: 'everyPage',
@@ -96,9 +95,9 @@ export function PdfPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
       console.error("PDF oluşturma hatası:", error)
       toast.error("PDF oluşturulurken bir hata oluştu")
     }
-  }, [headers, rows])
+  }, [data])
 
-  const handleCopyPdf = async () => {
+  const handleCopy = async () => {
     try {
       if (!pdfUrl) return
       const response = await fetch(pdfUrl)
@@ -108,9 +107,10 @@ export function PdfPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
           [blob.type]: blob
         })
       ])
-      
+      setIsCopied(true)
       toast.success("PDF panoya kopyalandı")
-    } catch (error) {
+      setTimeout(() => setIsCopied(false), 2000)
+    } catch {
       toast.error("Kopyalama başarısız oldu")
     }
   }
@@ -125,7 +125,7 @@ export function PdfPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
     document.body.removeChild(link)
   }
 
-  if (rows.length === 0) {
+  if (data.rows.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
         <FileText className="w-8 h-8 mr-2" />
@@ -140,23 +140,21 @@ export function PdfPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
         <h3 className="text-lg font-semibold">PDF Önizleme</h3>
         <div className="flex gap-2">
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
-            onClick={handleCopyPdf}
-            disabled={!pdfUrl}
-            className="flex items-center gap-2"
+            onClick={handleCopy}
+            disabled={!pdfUrl || isCopied}
           >
-            <Copy className="h-3.5 w-3.5" />
+            <Copy className="w-4 h-4 mr-2" />
             {isCopied ? "Kopyalandı" : "Kopyala"}
           </Button>
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={handleDownload}
             disabled={!pdfUrl}
-            className="flex items-center gap-2"
           >
-            <Download className="h-3.5 w-3.5" />
+            <Download className="w-4 h-4 mr-2" />
             İndir
           </Button>
         </div>

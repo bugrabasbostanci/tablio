@@ -14,7 +14,7 @@ export const generateMarkdownContent = (data: string[][]) => {
 
     // Veri satırları
     data.slice(1).forEach(row => {
-      content += "| " + row.map((cell, index) => {
+      content += "| " + row.map((cell) => {
         if (!cell || cell.trim() === "") return " "
         return cell
           .toString()

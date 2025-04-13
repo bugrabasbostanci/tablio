@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import * as XLSX from "xlsx"
 import { jsPDF } from "jspdf"
 import "jspdf-autotable"
@@ -27,6 +27,16 @@ interface TableConverterProps {
   setPastedText: (text: string) => void
 }
 
+// jspdf-autotable için tip tanımlamaları
+interface CellStyle {
+  cellWidth?: number
+  fontSize?: number
+  font?: string
+  fontStyle?: string
+}
+
+
+
 export function TableConverter({ 
   tableData, 
   setTableData, 
@@ -40,26 +50,6 @@ export function TableConverter({
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [isPasting, setIsPasting] = useState(false)
   const [showPasteHint, setShowPasteHint] = useState(true)
-
-  // Kısayol tuşları için event listener
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Ctrl+V veya Cmd+V ile yapıştırma
-      if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
-        e.preventDefault()
-        if (textareaRef.current) {
-          textareaRef.current.focus()
-          navigator.clipboard.readText().then(text => {
-            setPastedText(text)
-            handlePaste({ target: { value: text } } as React.ChangeEvent<HTMLTextAreaElement>)
-          })
-        }
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [])
 
   const parseTable = (text: string): string[][] => {
     try {
@@ -131,6 +121,27 @@ export function TableConverter({
       setShowPasteHint(false)
     }, 1000)
   }
+
+  // Kısayol tuşları için event listener
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    // Ctrl+V veya Cmd+V ile yapıştırma
+    if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+      e.preventDefault()
+      if (textareaRef.current) {
+        textareaRef.current.focus()
+        navigator.clipboard.readText().then(text => {
+          setPastedText(text)
+          handlePaste({ target: { value: text } } as React.ChangeEvent<HTMLTextAreaElement>)
+        })
+      }
+    }
+  }, [setPastedText, handlePaste]);
+  
+  // Klavye kısayolları için useEffect
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [handleKeyDown])
 
   const handleFormatChange = (value: string) => {
     setSelectedFormat(value as FormatType)
@@ -204,7 +215,7 @@ export function TableConverter({
 
           const columnWidths = calculateColumnWidths()
 
-          // jspdf-autotable arayüzünü doğrudan kullan
+          
           doc.autoTable({
             head: [headers],
             body: rows,
@@ -238,28 +249,28 @@ export function TableConverter({
                 font: "Roboto",
               }
               return acc
-            }, {} as Record<number, unknown>),
+            }, {} as Record<string, CellStyle>),
             margin: { top: 20, right: 15, bottom: 20, left: 15 },
-            didParseCell: function(data: unknown) {
+            didParseCell: function(data) {
               // Türkçe karakterleri düzgün göstermek için encoding
-              if ((data as any).text) {
-                (data as any).text = (data as any).text.map((text: string) => 
+              if (data.text) {
+                data.text = data.text.map((text: string) => 
                   decodeURIComponent(encodeURIComponent(text))
                 )
               }
 
               // Başlık hücreleri için bold font
-              if ((data as any).row.index === 0) {
-                (data as any).cell.styles.fontStyle = 'bold'
+              if (data.row.index === 0) {
+                data.cell.styles.fontStyle = 'bold'
               }
             },
-            willDrawCell: function(data: unknown) {
+            willDrawCell: function(data) {
               // Hücre içeriğini kontrol et
-              if ((data as any).cell.text) {
-                const text = Array.isArray((data as any).cell.text) ? (data as any).cell.text.join(' ') : (data as any).cell.text
+              if (data.cell.text) {
+                const text = Array.isArray(data.cell.text) ? data.cell.text.join(' ') : data.cell.text
                 // Çok uzun içerik varsa font boyutunu küçült
                 if (text.length > 40) {
-                  (data as any).cell.styles.fontSize = 7
+                  data.cell.styles.fontSize = 7
                 }
               }
             },

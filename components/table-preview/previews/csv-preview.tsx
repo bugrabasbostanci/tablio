@@ -6,7 +6,8 @@ import { generateCsvContent } from "../utils"
 
 export function CsvPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
   const handleCopy = async () => {
-    const content = generateCsvContent(data)
+    const csvData = [data.headers, ...data.rows]
+    const content = generateCsvContent(csvData)
     await onCopy(content)
   }
 
@@ -35,7 +36,7 @@ export function CsvPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
       </div>
       <ScrollArea className="h-[300px]">
         <pre className="whitespace-pre-wrap bg-muted/50 p-4 rounded-md">
-          {generateCsvContent(data)}
+          {generateCsvContent([data.headers, ...data.rows])}
         </pre>
       </ScrollArea>
     </div>

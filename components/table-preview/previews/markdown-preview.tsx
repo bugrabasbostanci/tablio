@@ -9,13 +9,15 @@ export function MarkdownPreview({ data, onCopy, isCopied }: PreviewComponentProp
   const [htmlContent, setHtmlContent] = useState("")
 
   useEffect(() => {
-    const markdown = generateMarkdownContent(data)
+    const tableArray = [data.headers, ...data.rows]
+    const markdown = generateMarkdownContent(tableArray)
     const html = convertToHtml(markdown)
     setHtmlContent(html)
   }, [data])
 
   const handleCopy = async () => {
-    const content = generateMarkdownContent(data)
+    const tableArray = [data.headers, ...data.rows]
+    const content = generateMarkdownContent(tableArray)
     await onCopy(content)
   }
 

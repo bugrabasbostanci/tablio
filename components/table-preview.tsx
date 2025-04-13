@@ -7,11 +7,67 @@ import { jsPDF } from "jspdf"
 import "jspdf-autotable"
 import { cn } from "@/lib/utils"
 
-// jsPDF için tip tanımlaması
+// jsPDF ile autoTable kullanımı için tip tanımı
 declare module "jspdf" {
   interface jsPDF {
-    autoTable: (options: unknown) => jsPDF;
+    autoTable: (options: AutoTableOptions) => jsPDF;
   }
+}
+
+// Tip tanımlamaları
+interface AutoTableOptions {
+  head?: string[][];
+  body?: string[][];
+  styles?: {
+    font?: string;
+    fontSize?: number;
+    cellPadding?: number;
+    overflow?: string;
+    halign?: string;
+    valign?: string;
+    minCellHeight?: number;
+    cellWidth?: string;
+    lineWidth?: number;
+  };
+  headStyles?: {
+    fillColor?: number[];
+    textColor?: number;
+    fontSize?: number;
+    fontStyle?: string;
+    font?: string;
+    minCellHeight?: number;
+    valign?: string;
+  };
+  alternateRowStyles?: {
+    fillColor?: number[];
+  };
+  columnStyles?: Record<number, CellStyle>;
+  margin?: {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  };
+  didParseCell?: (data: CellHookData) => void;
+  willDrawCell?: (data: CellHookData) => void;
+}
+
+interface CellStyle {
+  cellWidth?: number;
+  fontSize?: number;
+  font?: string;
+  fontStyle?: string;
+}
+
+interface CellHookData {
+  cell: {
+    text?: string | string[];
+    styles: CellStyle;
+  };
+  row: {
+    index: number;
+  };
+  text?: string[];
 }
 
 type FormatType = "xlsx" | "csv" | "pdf" | "json" | "markdown"
@@ -60,7 +116,7 @@ export function TablePreview({ data, format }: TablePreviewProps) {
 
         // Veri satırları
         data.slice(1).forEach(row => {
-          content += "| " + row.map(cell => {
+          content += "| " + row.map((cell) => {
             if (!cell || cell.trim() === "") return " "
             return cell
               .toString()
@@ -167,8 +223,8 @@ export function TablePreview({ data, format }: TablePreviewProps) {
           }
 
           const columnWidths = calculateColumnWidths()
-
-          // jspdf-autotable arayüzünü doğrudan kullan
+          
+          
           doc.autoTable({
             head: [data[0]],
             body: data.slice(1),
@@ -202,28 +258,28 @@ export function TablePreview({ data, format }: TablePreviewProps) {
                 font: "Roboto",
               }
               return acc
-            }, {} as Record<number, unknown>),
+            }, {} as Record<number, CellStyle>),
             margin: { top: 20, right: 15, bottom: 20, left: 15 },
-            didParseCell: function(data: unknown) {
+            didParseCell: function(data: CellHookData) {
               // Türkçe karakterleri düzgün göstermek için encoding
-              if ((data as any).text) {
-                (data as any).text = (data as any).text.map((text: string) => 
+              if (data.text) {
+                data.text = data.text.map((text: string) => 
                   decodeURIComponent(encodeURIComponent(text))
                 )
               }
 
               // Başlık hücreleri için bold font
-              if ((data as any).row.index === 0) {
-                (data as any).cell.styles.fontStyle = 'bold'
+              if (data.row.index === 0) {
+                data.cell.styles.fontStyle = 'bold'
               }
             },
-            willDrawCell: function(data: unknown) {
+            willDrawCell: function(data: CellHookData) {
               // Hücre içeriğini kontrol et
-              if ((data as any).cell.text) {
-                const text = Array.isArray((data as any).cell.text) ? (data as any).cell.text.join(' ') : (data as any).cell.text
+              if (data.cell.text) {
+                const text = Array.isArray(data.cell.text) ? data.cell.text.join(' ') : data.cell.text
                 // Çok uzun içerik varsa font boyutunu küçült
                 if (text.length > 40) {
-                  (data as any).cell.styles.fontSize = 7
+                  data.cell.styles.fontSize = 7
                 }
               }
             },
@@ -241,7 +297,8 @@ export function TablePreview({ data, format }: TablePreviewProps) {
               ></iframe>
             `
           }
-        } catch (_) {
+        } catch (error) {
+          console.error('PDF önizleme hatası:', error)
           toast.error("PDF önizleme oluşturulurken bir hata oluştu")
         }
       }
@@ -290,7 +347,7 @@ export function TablePreview({ data, format }: TablePreviewProps) {
       setIsCopied(true)
       toast.success("İçerik panoya kopyalandı")
       setTimeout(() => setIsCopied(false), 2000)
-    } catch (_) {
+    } catch  {
       toast.error("Kopyalama işlemi başarısız oldu")
     }
   }
@@ -319,50 +376,46 @@ export function TablePreview({ data, format }: TablePreviewProps) {
         <Button
           onClick={handleCopy}
           variant="ghost"
-          size="sm"
-          className="flex items-center gap-1 cursor-pointer hover:bg-muted/50 transition-colors"
+          size="icon"
+          className="cursor-pointer hover:bg-muted/50 transition-colors"
           aria-label="Tabloyu kopyala"
         >
           {isCopied ? (
-            <Check className="h-3.5 w-3.5" />
+            <Check className="h-4 w-4" />
           ) : (
-            <Copy className="h-3.5 w-3.5" />
+            <Copy className="h-4 w-4" />
           )}
-          <span className="sr-only">Kopyala</span>
         </Button>
         <Button
           onClick={handleZoomIn}
           variant="ghost"
-          size="sm"
-          className="flex items-center gap-1 cursor-pointer hover:bg-muted/50 transition-colors"
+          size="icon"
+          className="cursor-pointer hover:bg-muted/50 transition-colors"
           aria-label="Yakınlaştır"
         >
-          <ZoomIn className="h-3.5 w-3.5" />
-          <span className="sr-only">Yakınlaştır</span>
+          <ZoomIn className="h-4 w-4" />
         </Button>
         <Button
           onClick={handleZoomOut}
           variant="ghost"
-          size="sm"
-          className="flex items-center gap-1 cursor-pointer hover:bg-muted/50 transition-colors"
+          size="icon"
+          className="cursor-pointer hover:bg-muted/50 transition-colors"
           aria-label="Uzaklaştır"
         >
-          <ZoomOut className="h-3.5 w-3.5" />
-          <span className="sr-only">Uzaklaştır</span>
+          <ZoomOut className="h-4 w-4" />
         </Button>
         <Button
           onClick={handleFullscreen}
           variant="ghost"
-          size="sm"
-          className="flex items-center gap-1 cursor-pointer hover:bg-muted/50 transition-colors"
+          size="icon"
+          className="cursor-pointer hover:bg-muted/50 transition-colors"
           aria-label={isFullscreen ? "Tam ekrandan çık" : "Tam ekran yap"}
         >
           {isFullscreen ? (
-            <Minimize2 className="h-3.5 w-3.5" />
+            <Minimize2 className="h-4 w-4" />
           ) : (
-            <Maximize2 className="h-3.5 w-3.5" />
+            <Maximize2 className="h-4 w-4" />
           )}
-          <span className="sr-only">{isFullscreen ? "Küçült" : "Tam Ekran"}</span>
         </Button>
       </div>
     )
@@ -394,9 +447,9 @@ export function TablePreview({ data, format }: TablePreviewProps) {
                 <table className="w-full border-collapse bg-background">
                   <thead>
                     <tr>
-                      {headers.map((header, i) => (
+                      {headers.map((header, index) => (
                         <th 
-                          key={i} 
+                          key={index} 
                           className="border border-border bg-muted p-3 text-left text-sm font-medium sticky top-0"
                         >
                           {header}

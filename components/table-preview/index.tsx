@@ -16,7 +16,7 @@ export function TablePreview({ data, format }: TablePreviewProps) {
       setIsCopied(true)
       toast.success("İçerik panoya kopyalandı")
       setTimeout(() => setIsCopied(false), 2000)
-    } catch (_) {
+    } catch {
       toast.error("Kopyalama işlemi başarısız oldu")
     }
   }
@@ -29,8 +29,14 @@ export function TablePreview({ data, format }: TablePreviewProps) {
     )
   }
 
+  // string[][] tipindeki veriyi TableData tipine dönüştür
+  const tableData: TableData = {
+    headers: data[0],
+    rows: data.slice(1)
+  }
+
   const previewProps = {
-    data,
+    data: tableData,
     onCopy: handleCopy,
     isCopied
   }

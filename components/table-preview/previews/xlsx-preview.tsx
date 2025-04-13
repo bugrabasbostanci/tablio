@@ -4,11 +4,11 @@ import { Copy, Check } from "lucide-react"
 import { generateXlsxContent } from "../utils"
 
 export function XlsxPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
-  const headers = data[0]
-  const rows = data.slice(1)
+  const { headers, rows } = data
 
   const handleCopy = async () => {
-    const content = generateXlsxContent(data)
+    const tableArray = [headers, ...rows]
+    const content = generateXlsxContent(tableArray)
     await onCopy(content)
   }
 
@@ -18,7 +18,7 @@ export function XlsxPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
         <h3 className="text-sm font-medium">Excel Önizleme</h3>
         <Button
           onClick={handleCopy}
-          variant="ghost"
+          variant="outline"
           size="sm"
           className="flex items-center gap-2"
         >
@@ -39,7 +39,7 @@ export function XlsxPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-muted/50">
-              {headers.map((header, index) => (
+              {headers.map((header: string, index: number) => (
                 <th key={index} className="border p-2 text-left text-sm font-medium">
                   {header}
                 </th>
@@ -47,9 +47,9 @@ export function XlsxPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, rowIndex) => (
+            {rows.map((row: string[], rowIndex: number) => (
               <tr key={rowIndex} className="hover:bg-muted/50">
-                {row.map((cell, cellIndex) => (
+                {row.map((cell: string, cellIndex: number) => (
                   <td key={cellIndex} className="border p-2 text-sm">
                     {cell}
                   </td>

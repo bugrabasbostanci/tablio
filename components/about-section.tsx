@@ -11,7 +11,7 @@ export function AboutSection() {
             <h3 className="text-sm font-medium mb-1">Nedir?</h3>
             <p className="text-sm text-muted-foreground">
               Tablio, web sayfalarındaki tabloları kolayca Excel, CSV, PDF, JSON ve Markdown formatlarına dönüştürmenizi
-              sağlayan kullanıcı dostu bir araçtır. Herhangi bir web sitesindeki tabloyu seçip kopyalayın, Tablio'ya
+              sağlayan kullanıcı dostu bir araçtır. Herhangi bir web sitesindeki tabloyu seçip kopyalayın, Tablio&apos;ya
               yapıştırın ve istediğiniz formatta indirin.
             </p>
           </div>

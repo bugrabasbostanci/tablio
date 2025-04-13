@@ -6,7 +6,7 @@ import { generateJsonContent } from "../utils"
 
 export function JsonPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
   const handleCopy = async () => {
-    const content = generateJsonContent(data)
+    const content = generateJsonContent(data.rows)
     await onCopy(content)
   }
 
@@ -35,7 +35,7 @@ export function JsonPreview({ data, onCopy, isCopied }: PreviewComponentProps) {
       </div>
       <ScrollArea className="h-[300px]">
         <pre className="font-mono text-sm bg-muted/50 p-4 rounded-md">
-          {generateJsonContent(data)}
+          {generateJsonContent(data.rows)}
         </pre>
       </ScrollArea>
     </div>

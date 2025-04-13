@@ -31,7 +31,7 @@ export function SimpleGuide() {
     },
     {
       title: "4. Dönüştürün",
-      description: "İstediğiniz formatı seçin ve 'Dönüştür ve İndir' butonuna tıklayın.",
+      description: "İstediğiniz formatı seçin ve &apos;Dönüştür ve İndir&apos; butonuna tıklayın.",
       image: "/images/guide/table-convert.png",
       alt: "Tablo dönüştürme örneği"
     }
@@ -42,7 +42,7 @@ export function SimpleGuide() {
       <div className="text-center mb-8">
         <h2 className="text-2xl font-semibold mb-2">Nasıl Kullanılır?</h2>
         <p className="text-muted-foreground">
-          Tablio'yu kullanmak için aşağıdaki adımları takip edin.
+          Tablio&apos;yu kullanmak için aşağıdaki adımları takip edin.
         </p>
       </div>
 
