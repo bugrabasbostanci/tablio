@@ -26,16 +26,6 @@ export function AboutSection() {
               <li>Hızlı dönüştürme</li>
             </ul>
           </div>
-
-          <div>
-            <h3 className="text-sm font-medium mb-1">Nasıl Kullanılır?</h3>
-            <p className="text-sm text-muted-foreground">
-              <span className="font-medium">Basit ve Etkili Kullanım:</span> Web sayfalarından kopyaladığınız tabloları tek tıkla kullanılabilir formatlara dönüştürün.
-            </p>
-            <p className="mb-4">
-              <span className="font-medium">Ücretsiz ve Açık Kaynak:</span> Tablio&apos;nun kaynak kodlarına Github üzerinden erişebilirsiniz.
-            </p>
-          </div>
         </div>
       </CardContent>
     </Card>
