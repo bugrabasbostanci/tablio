@@ -1,103 +1,91 @@
-import Image from "next/image";
+"use client"
+
+import { useState } from "react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { TableConverter } from "@/components/table-converter"
+import { SimpleGuide } from "@/components/simple-guide"
+import { AboutSection } from "@/components/about-section"
+import { Badge } from "@/components/ui/badge"
+import { Sparkles } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [activeTab, setActiveTab] = useState("convert")
+  const [tableData, setTableData] = useState<string[][]>([])
+  const [pastedText, setPastedText] = useState("")
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <main className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="relative mb-8">
+          <div className="absolute right-0 top-0">
+            <ThemeToggle />
+          </div>
+          <div className="text-center">
+            <h1 className="text-4xl font-bold tracking-tight mb-3">Tablio</h1>
+            <p className="text-lg text-muted-foreground">
+              Web tablolarını tek tıkla kullanılabilir formatlara dönüştürün
+            </p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+
+        <div className="max-w-5xl mx-auto">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+            <TabsList className="w-full grid grid-cols-3 bg-muted/30 p-1 rounded-lg">
+              <TabsTrigger 
+                value="convert" 
+                className="text-base text-muted-foreground cursor-pointer data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:text-foreground hover:bg-muted/50 transition-colors"
+              >
+                Dönüştür
+              </TabsTrigger>
+              <TabsTrigger 
+                value="guide" 
+                className="text-base text-muted-foreground cursor-pointer data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:text-foreground hover:bg-muted/50 transition-colors"
+              >
+                Nasıl Kullanılır?
+              </TabsTrigger>
+              <TabsTrigger 
+                value="about" 
+                className="text-base text-muted-foreground cursor-pointer data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:text-foreground hover:bg-muted/50 transition-colors"
+              >
+                Hakkında
+              </TabsTrigger>
+            </TabsList>
+
+            {activeTab === "convert" && (
+              <div className="flex justify-center -mt-4 mb-4 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="group relative inline-block">
+                  <Badge variant="outline" className="flex items-center gap-2 cursor-help py-1.5 px-3 border-primary/30 bg-primary/5 text-primary hover:bg-primary/10 shadow-sm">
+                      <Sparkles className="h-3.5 w-3.5 text-yellow-500" />
+                    Tıklamadan CTRL+V ile Yapıştır
+                    <Sparkles className="h-3.5 w-3.5 text-yellow-500" />
+                  </Badge>
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-72 p-3 bg-popover/95 backdrop-blur supports-[backdrop-filter]:bg-popover/85 text-popover-foreground text-sm rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 border">
+                    <p>Tabloyu kopyaladıktan sonra metin alanına tıklamadan direkt <span className="font-medium">CTRL+V</span> ile yapıştırabilirsiniz!</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <TabsContent value="convert" className="mt-0">
+              <TableConverter 
+                tableData={tableData}
+                setTableData={setTableData}
+                pastedText={pastedText}
+                setPastedText={setPastedText}
+              />
+            </TabsContent>
+
+            <TabsContent value="guide" className="mt-0">
+              <SimpleGuide />
+            </TabsContent>
+
+            <TabsContent value="about" className="mt-0">
+              <AboutSection />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    </main>
+  )
 }

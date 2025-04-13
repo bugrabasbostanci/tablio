@@ -1,0 +1,23 @@
+## Tablio
+Web tablolarını tek tıkla kullanılabilir formatlara dönüştürün!
+
+## Hakkında
+Tablio, web sayfalarındaki tabloları kolayca Excel, CSV, PDF, JSON ve Markdown formatlarına dönüştürmenizi sağlayan kullanıcı dostu bir araçtır. Herhangi bir web sitesindeki tabloyu seçip kopyalayın, Table Convert'e yapıştırın ve istediğiniz formatta indirin.
+
+Özellikler
+- Web sayfalarından kopyalanan tabloları destekler
+- Birden fazla format seçeneği:
+    - Excel (XLSX)
+    - CSV
+    - PDF
+    - JSON
+    - Markdown
+- Anlık önizleme
+- Kolay kullanım
+- Hızlı dönüştürme
+
+Kullanım
+1. Web sayfasından istediğiniz tabloyu seçin ve kopyalayın
+2. Table Convert'e yapıştırın
+3. İstediğiniz formatı seçin
+4. "Dönüştür ve İndir" butonuna tıklayın
