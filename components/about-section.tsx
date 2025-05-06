@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Github } from "lucide-react"
-import { Button } from "./ui/button"
 import Link from "next/link"
 
 export function AboutSection() {
