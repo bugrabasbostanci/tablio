@@ -1,4 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
+import { Github } from "lucide-react"
+import { Button } from "./ui/button"
+import Link from "next/link"
 
 export function AboutSection() {
   return (
@@ -25,6 +28,13 @@ export function AboutSection() {
               <li>Kolay kullanım</li>
               <li>Hızlı dönüştürme</li>
             </ul>
+          </div>
+          <div className="flex justify-center">
+            <Link href="https://github.com/bugrabasbostanci/tablio" target="_blank" className="flex items-center gap-2">
+                <Github className="w-4 h-4" />
+                <p className="text-sm text-muted-foreground">Github</p>
+              
+            </Link>
           </div>
         </div>
       </CardContent>

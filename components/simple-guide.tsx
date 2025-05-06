@@ -81,13 +81,6 @@ export function SimpleGuide() {
           </Card>
         ))}
       </div>
-
-      <div className="text-center text-sm text-muted-foreground mt-8">
-        <p>
-          Not: Bazı web siteleri tablolarını kopyalamaya izin vermeyebilir. 
-          Bu durumda farklı bir tarayıcı deneyebilir veya tabloyu manuel olarak oluşturabilirsiniz.
-        </p>
-      </div>
     </div>
   )
 }
